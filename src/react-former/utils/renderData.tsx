@@ -1,5 +1,6 @@
-import {FormDataValue} from "../types/FormData";
 import {ReactNode} from "react";
+
+import {FormDataValue} from "../types/FormData";
 
 export const renderData = (data: FormDataValue): ReactNode => {
     if (data === null || data === undefined) {
@@ -10,18 +11,18 @@ export const renderData = (data: FormDataValue): ReactNode => {
         return data.map((item, index) => (
             <div key={index}>
                 {renderData(item)}
-                </div>
+            </div>
         ));
     } else if (typeof data === 'object') {
         return (
             <div>
                 {Object.entries(data).map(([key, value], index) => (
-                        <div key={index}>
-                            <strong>{key}:</strong> {renderData(value)}
-        </div>
-    ))}
-        </div>
-    );
+                    <div key={index}>
+                        <strong>{key}:</strong> {renderData(value)}
+                    </div>
+                ))}
+            </div>
+        );
     }
     return <span>Unknown Data Type</span>;
 };

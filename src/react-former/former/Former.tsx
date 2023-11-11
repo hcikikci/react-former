@@ -1,12 +1,15 @@
 import React, {createContext, ReactNode, useState} from 'react';
-import {FormContextProps} from "../types/FormContextProps";
-import {FormerProps} from "../types/FormerProps";
+
 import {useFormState} from "../hooks/useFormState";
-import {FormDataValue} from "../types/FormData";
+import {FormContextProps} from "../types/FormContextProps";
+import {FormErrors} from "../types/FormErrors";
+import {FormErrorProvider} from '../hooks/useFormError';
+
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import {FormErrors} from "../types/FormErrors";
-import { FormErrorProvider } from '../hooks/useFormError';
+
+import {FormDataValue} from "../types/FormData";
+import {FormerProps} from "../types/FormerProps";
 
 export const FormContext = createContext<FormContextProps | undefined>(undefined);
 

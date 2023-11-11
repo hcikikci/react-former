@@ -1,5 +1,6 @@
-import {FormDataValue} from "./FormData";
 import React from "react";
+
+import {FormDataValue} from "./FormData";
 
 export interface FieldType {
     name: string;

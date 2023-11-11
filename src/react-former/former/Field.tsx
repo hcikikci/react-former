@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import {FieldType} from "../types/Field";
+
 import {FormContext} from "./Former";
 import Select from 'react-select';
 import {getDefaultClass} from "../utils/getDefaultClass";
 import {getDefaultStyle} from "../utils/getDefaultStyle";
 import {useFormError} from "../hooks/useFormError";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+
+import {FieldType} from "../types/Field";
 
 const Field = ({
                    name,
@@ -106,7 +106,7 @@ const Field = ({
     );
 };
 
-export const ErrorMessage = ({ fieldName }: { fieldName: string }) => {
+export const ErrorMessage = ({fieldName}: { fieldName: string }) => {
     const errorMessage = useFormError(fieldName);
 
     return errorMessage ? <>{errorMessage}</> : null;

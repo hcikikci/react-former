@@ -1,11 +1,13 @@
 import React, {ReactElement, ReactNode} from 'react';
+
 import {FormContext} from "./Former";
+import Field from "./Field";
+import {renderData} from "../utils/renderData";
+
 import {FieldArrayProps} from "../types/FieldArrayProps";
 import {FieldArrayElement} from "../types/FieldArrayElement";
 import {FieldArrayAddProps} from "../types/FieldArrayAddProps";
 import {FieldArrayRemoveProps} from "../types/FieldArrayRemoveProps";
-import Field from "./Field";
-import {renderData} from "../utils/renderData";
 
 const FieldArray = ({name, children}: FieldArrayProps) => {
     const context = React.useContext(FormContext);
@@ -41,7 +43,7 @@ const FieldArray = ({name, children}: FieldArrayProps) => {
                 if (childProps.children) {
                     return React.cloneElement(child, {
                         children: processChildren(childProps.children, fieldName, isInLoop),
-                    }  as FieldArrayElement );
+                    } as FieldArrayElement);
                 }
             }
             return child;
@@ -58,7 +60,7 @@ const FieldArray = ({name, children}: FieldArrayProps) => {
     );
 };
 
-const Add = ({name="", children}: FieldArrayAddProps) => {
+const Add = ({name = "", children}: FieldArrayAddProps) => {
     const context = React.useContext(FormContext);
     if (!context) {
         throw new Error("FieldArray must be used within the Former component");
@@ -86,7 +88,7 @@ const Add = ({name="", children}: FieldArrayAddProps) => {
 
 FieldArray.Add = Add;
 
-const Remove = ({name="", children}: FieldArrayRemoveProps) => {
+const Remove = ({name = "", children}: FieldArrayRemoveProps) => {
     const context = React.useContext(FormContext);
     if (!context) {
         throw new Error("FieldArray must be used within the Former component");

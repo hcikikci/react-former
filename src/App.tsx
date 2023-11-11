@@ -1,9 +1,5 @@
 import React from 'react';
-import {Former} from "./react-former/former/Former";
-import Field, {ErrorMessage} from "./react-former/former/Field";
-import FieldArray from "./react-former/former/FieldArray";
-import {FormData} from "./react-former/types/FormData";
-import {FormErrors} from "./react-former/types/FormErrors";
+import {ErrorMessage, Field, FieldArray, Former, FormErrors, FormData} from "./react-former";
 
 function App() {
 

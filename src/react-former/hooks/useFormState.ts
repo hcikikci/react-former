@@ -1,7 +1,9 @@
 import {useEffect, useRef, useState} from "react";
+
 import set from 'lodash/set';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
+
 import {FormData} from "../types/FormData";
 import {
     CreateFieldFunction,
@@ -53,6 +55,15 @@ export function useFormState(initialData: FormData | Promise<any>) {
         });
     };
 
-    return {formData, setFormData, getField, createField, updateField, deleteField, initialDataLoaded, initialDataError};
+    return {
+        formData,
+        setFormData,
+        getField,
+        createField,
+        updateField,
+        deleteField,
+        initialDataLoaded,
+        initialDataError
+    };
 }
 
