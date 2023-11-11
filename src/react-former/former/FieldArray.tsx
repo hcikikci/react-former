@@ -1,9 +1,11 @@
-import React, {ReactNode} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import {FormContext} from "./Former";
 import {FieldArrayProps} from "../types/FieldArrayProps";
 import {FieldArrayElement} from "../types/FieldArrayElement";
 import {FieldArrayAddProps} from "../types/FieldArrayAddProps";
 import {FieldArrayRemoveProps} from "../types/FieldArrayRemoveProps";
+import Field from "./Field";
+import {renderData} from "../utils/renderData";
 
 const FieldArray = ({name, children}: FieldArrayProps) => {
     const context = React.useContext(FormContext);
@@ -16,24 +18,30 @@ const FieldArray = ({name, children}: FieldArrayProps) => {
         return React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
                 const childProps = child.props as FieldArrayElement;
-                const childType = child.type as any;
 
+                // Koşullu render işlemlerini optimize et
                 if ((childProps.renderInLoop === false && isInLoop) || (childProps.renderInLoop !== false && !isInLoop)) {
                     return null;
                 }
 
-                if (childType.name === "Field" || childType.name === "Preview") {
-                    return React.cloneElement(child as React.ReactElement<any>, {name: `${fieldName}.${childProps.name}`});
-                } else if (childType.name === "Remove") {
-                    return React.cloneElement(child as React.ReactElement<any>, {name: `${fieldName}`});
-                } else if (childType.name === "Add") {
-                    return React.cloneElement(child as React.ReactElement<any>, {name: `${name}`});
+                // Tip kontrolünü optimize et
+                const isFieldOrPreview = child.type === Field || child.type === Preview;
+                const isRemove = child.type === Remove;
+                const isAdd = child.type === Add;
+
+                if (isFieldOrPreview) {
+                    return React.cloneElement(child as ReactElement, {name: `${fieldName}.${childProps.name}`});
+                } else if (isRemove) {
+                    return React.cloneElement(child as ReactElement, {name: `${fieldName}`});
+                } else if (isAdd) {
+                    return React.cloneElement(child as ReactElement, {name: `${name}`});
                 }
 
+                // Yinelemeli işlemleri optimize et
                 if (childProps.children) {
                     return React.cloneElement(child, {
                         children: processChildren(childProps.children, fieldName, isInLoop),
-                    } as FieldArrayElement);
+                    }  as FieldArrayElement );
                 }
             }
             return child;
@@ -106,7 +114,7 @@ const Preview = ({name}: { name: string }) => {
 
     return (
         <div>
-            {data}
+            {renderData(data)}
         </div>
     );
 }

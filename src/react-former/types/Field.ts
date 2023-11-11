@@ -3,7 +3,7 @@ import React from "react";
 
 export interface FieldType {
     name: string;
-    type: 'select' | 'text';
+    type: 'select' | 'text' | 'checkbox' | 'radio' | 'number' | 'password' | 'date' | 'email' | 'file' | 'color' | 'range';
     required?: boolean;
     label?: string;
     customInitialValue?: FormDataValue;

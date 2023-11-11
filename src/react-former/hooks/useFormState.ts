@@ -10,31 +10,42 @@ import {
     UpdateFieldFunction
 } from "../types/FormContextProps";
 
-export function useFormState(initialData: FormData) {
-    const [formData, setFormData] = useState<FormData>(initialData);
-    const isInitialDataSet = useRef(false);
+export function useFormState(initialData: FormData | Promise<any>) {
+    const [formData, setFormData] = useState<FormData>({});
+    const [initialDataLoaded, setInitialDataLoaded] = useState<boolean>(false);
+    const [initialDataError, setInitialDataError] = useState<boolean | string>(false);
+    const isInitialDataProcessed = useRef(false);
 
     useEffect(() => {
-        console.log('useFormState: initialData', initialData)
-        if (!isInitialDataSet.current) {
-            setFormData(initialData);
-            isInitialDataSet.current = true;
+        if (!isInitialDataProcessed.current) {
+            if (initialData instanceof Promise) {
+                initialData.then(data => {
+                    setFormData(data);
+                    setInitialDataLoaded(true);
+                }).catch(error => {
+                    setInitialDataError(error);
+                });
+            } else {
+                setFormData(initialData);
+                setInitialDataLoaded(true);
+            }
+            isInitialDataProcessed.current = true;
         }
     }, [initialData]);
 
-    const getField:GetFieldFunction = (fieldName) => {
+    const getField: GetFieldFunction = (fieldName) => {
         return get(formData, fieldName);
     };
 
-    const createField:CreateFieldFunction = (fieldName, value) => {
+    const createField: CreateFieldFunction = (fieldName, value) => {
         setFormData(prevFormData => set({...prevFormData}, fieldName, value));
     };
 
-    const updateField:UpdateFieldFunction = (fieldName, value) => {
+    const updateField: UpdateFieldFunction = (fieldName, value) => {
         setFormData(prevFormData => set({...prevFormData}, fieldName, value));
     };
 
-    const deleteField:DeleteFieldFunction = (fieldName) => {
+    const deleteField: DeleteFieldFunction = (fieldName) => {
         setFormData(prevFormData => {
             const newFormData = {...prevFormData};
             unset(newFormData, fieldName);
@@ -42,6 +53,6 @@ export function useFormState(initialData: FormData) {
         });
     };
 
-    return {formData, setFormData, getField, createField, updateField, deleteField};
+    return {formData, setFormData, getField, createField, updateField, deleteField, initialDataLoaded, initialDataError};
 }
 

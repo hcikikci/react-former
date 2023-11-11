@@ -10,5 +10,5 @@ export interface FormContextProps {
 
 export type UpdateFieldFunction = (fieldName: string, value: FormDataValue) => void;
 export type DeleteFieldFunction = (fieldName: string) => void;
-export type GetFieldFunction = (fieldName: string) => any;
+export type GetFieldFunction = (fieldName: string) => FormDataValue;
 export type CreateFieldFunction = (fieldName: string, value: FormDataValue) => void;
