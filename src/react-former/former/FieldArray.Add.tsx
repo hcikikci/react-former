@@ -1,0 +1,39 @@
+import React from 'react';
+
+// Importing context and components
+import { FormContext } from './Former';
+
+// Importing type definitions
+import { FieldArrayAddProps } from '../types/FieldArrayAddProps';
+
+// Add component for adding new items to the field array
+export const Add = ({ name = '', children }: FieldArrayAddProps) => {
+    const context = React.useContext(FormContext);
+
+    // Ensuring Add is used within a FormContext provider
+    if (!context) {
+        throw new Error('FieldArray must be used within the Former component');
+    }
+    const { createField, getField } = context;
+
+    // Function to handle the creation of a new field
+    const handleCreateField = (name: string) => {
+        const fields = getField(name);
+        if (!Array.isArray(fields)) return;
+        const firstNullIndex = fields.findIndex(
+            (item) => item == null || Object.keys(item).length === 0
+        );
+
+        // Logic for creating a new field in the array
+        if (firstNullIndex !== -1) {
+            createField(name + '[' + firstNullIndex + ']', {});
+            return;
+        } else {
+            createField(name + '[' + fields.length + ']', {});
+            return;
+        }
+    };
+
+    // Rendering the Add component
+    return <div onClick={() => handleCreateField(name)}>{children}</div>;
+};

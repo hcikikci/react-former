@@ -1,38 +1,52 @@
 import React, { useContext } from 'react';
-
-import { FormContext } from './Former';
 import Select from 'react-select';
+
+// Importing context and components
+import { FormContext } from './Former';
 import { getDefaultClass } from '../utils/getDefaultClass';
 import { getDefaultStyle } from '../utils/getDefaultStyle';
 import { useFormError } from '../hooks/useFormError';
 
+// Importing type definitions
 import { FieldType } from '../types/Field';
 
+// Define default prop values for the Field component
+const defaultProps = {
+    required: false,
+    type: 'text',
+    className: getDefaultClass(),
+    style: getDefaultStyle(),
+};
+
+// Field component for form inputs
 const Field = ({
     name,
     options,
-    required = false,
+    required,
     placeholder,
     customInitialValue,
-    type = 'text',
+    type,
     label,
-    className = getDefaultClass(),
-    style = getDefaultStyle(),
+    className,
+    style,
 }: FieldType) => {
+    // Accessing context from the Form component
     const context = useContext(FormContext);
 
+    // Ensuring Field is used within a FormContext provider
     if (!context) {
         throw new Error('Field must be used within the Former component');
     }
 
-    const { formData, getField, updateField } = context;
-    const initialValue =
-        customInitialValue ||
-        (name.includes('.') ? getField(name) : formData[name]) ||
-        '';
-    const isDefaultValueValid =
-        typeof initialValue === 'string' || typeof initialValue === 'number';
+    // Destructuring context to get field-related functions
+    const { getField, updateField } = context;
 
+    // Determine the initial value of the field
+    const initialValue = customInitialValue || getField(name) || '';
+    const isDefaultValueValid =
+        typeof initialValue === 'string' || typeof initialValue === 'number'; //TODO: add support for other types
+
+    // Common properties for all field types
     const commonProps = {
         key: name,
         name: name,
@@ -45,6 +59,7 @@ const Field = ({
             updateField(name, event.target.value),
     };
 
+    // Render functions for various input types
     const renderSelectField = () => (
         <Select
             {...commonProps}
@@ -81,43 +96,27 @@ const Field = ({
     const renderRangeField = () => <input {...commonProps} type="range" />;
     const renderColorField = () => <input {...commonProps} type="color" />;
 
-    let fieldComponent;
-    switch (type) {
-        case 'select':
-            fieldComponent = renderSelectField();
-            break;
-        case 'checkbox':
-            fieldComponent = renderCheckboxField();
-            break;
-        case 'radio':
-            fieldComponent = renderRadioField();
-            break;
-        case 'number':
-            fieldComponent = renderNumberField();
-            break;
-        case 'password':
-            fieldComponent = renderPasswordField();
-            break;
-        case 'date':
-            fieldComponent = renderDateField();
-            break;
-        case 'email':
-            fieldComponent = renderEmailField();
-            break;
-        case 'file':
-            fieldComponent = renderFileField();
-            break;
-        case 'range':
-            fieldComponent = renderRangeField();
-            break;
-        case 'color':
-            fieldComponent = renderColorField();
-            break;
-        default:
-            fieldComponent = renderTextField();
-            break;
-    }
+    // Mapping field types to their respective render functions
+    const fieldComponentMap = {
+        select: renderSelectField,
+        checkbox: renderCheckboxField,
+        radio: renderRadioField,
+        number: renderNumberField,
+        password: renderPasswordField,
+        date: renderDateField,
+        email: renderEmailField,
+        file: renderFileField,
+        range: renderRangeField,
+        color: renderColorField,
+        text: renderTextField,
+    };
 
+    // Selecting the appropriate component to render based on the 'type' prop
+    const fieldComponent = fieldComponentMap[type]
+        ? fieldComponentMap[type]()
+        : renderTextField();
+
+    // Conditional rendering based on whether a label is provided TODO: add support for custom label component
     return label ? (
         <div className="flex flex-col space-y-1">
             <label htmlFor={name}>{label}</label>
@@ -128,6 +127,10 @@ const Field = ({
     );
 };
 
+// Setting default properties for the Field component
+Field.defaultProps = defaultProps;
+
+// Component to display error messages for a field
 export const ErrorMessage = ({ fieldName }: { fieldName: string }) => {
     const errorMessage = useFormError(fieldName);
 

@@ -1,21 +1,35 @@
 import React, { ReactNode } from 'react';
 
+// Importing type for form data value
 import { FormDataValue } from '../types/FormData';
 
+/**
+ * Function to render data as a React component.
+ * This function dynamically renders different types of data.
+ * @param data - The data to be rendered, can be of various types.
+ * @returns A ReactNode that visually represents the input data.
+ */
 export const renderData = (data: FormDataValue): ReactNode => {
+    // Handling null or undefined data
     if (data === null || data === undefined) {
-        return <span>Veri Yok</span>;
-    } else if (
+        return <span>No Data</span>;
+    }
+    // Rendering basic data types (string, number, boolean)
+    else if (
         typeof data === 'string' ||
         typeof data === 'number' ||
         typeof data === 'boolean'
     ) {
         return <span>{data.toString()}</span>;
-    } else if (Array.isArray(data)) {
+    }
+    // Recursively rendering array data
+    else if (Array.isArray(data)) {
         return data.map((item, index) => (
             <div key={index}>{renderData(item)}</div>
         ));
-    } else if (typeof data === 'object') {
+    }
+    // Rendering object data with keys and values
+    else if (typeof data === 'object') {
         return (
             <div>
                 {Object.entries(data).map(([key, value], index) => (
@@ -26,5 +40,6 @@ export const renderData = (data: FormDataValue): ReactNode => {
             </div>
         );
     }
+    // Fallback for unknown data types
     return <span>Unknown Data Type</span>;
 };

@@ -1,31 +1,38 @@
 import React, { ReactElement, ReactNode } from 'react';
 
+// Importing context and components
 import { FormContext } from './Former';
 import Field from './Field';
-import { renderData } from '../utils/renderData';
+import { Preview } from './FieldArray.Preview';
+import { Add } from './FieldArray.Add';
+import { Remove } from './FieldArray.Remove';
 
+// Importing type definitions
 import { FieldArrayProps } from '../types/FieldArrayProps';
 import { FieldArrayElement } from '../types/FieldArrayElement';
-import { FieldArrayAddProps } from '../types/FieldArrayAddProps';
-import { FieldArrayRemoveProps } from '../types/FieldArrayRemoveProps';
 
+// FieldArray component for handling arrays of fields
 const FieldArray = ({ name, children }: FieldArrayProps) => {
     const context = React.useContext(FormContext);
+
+    // Ensuring FieldArray is used within a FormContext provider
     if (!context) {
         throw new Error('FieldArray must be used within the Former component');
     }
     const { formData } = context;
 
+    // Function to process children components
     const processChildren = (
         children: ReactNode,
         fieldName: string,
         isInLoop: boolean
     ): ReactNode => {
         return React.Children.map(children, (child) => {
+            // Check if child is a valid React element
             if (React.isValidElement(child)) {
                 const childProps = child.props as FieldArrayElement;
 
-                // Koşullu render işlemlerini optimize et
+                // Rendering logic based on the 'renderInLoop' property
                 if (
                     (childProps.renderInLoop === false && isInLoop) ||
                     (childProps.renderInLoop !== false && !isInLoop)
@@ -33,12 +40,13 @@ const FieldArray = ({ name, children }: FieldArrayProps) => {
                     return null;
                 }
 
-                // Tip kontrolünü optimize et
+                // Determining the type of child component
                 const isFieldOrPreview =
                     child.type === Field || child.type === Preview;
                 const isRemove = child.type === Remove;
                 const isAdd = child.type === Add;
 
+                // Cloning and modifying element based on its type
                 if (isFieldOrPreview) {
                     return React.cloneElement(child as ReactElement, {
                         name: `${fieldName}.${childProps.name}`,
@@ -53,7 +61,7 @@ const FieldArray = ({ name, children }: FieldArrayProps) => {
                     });
                 }
 
-                // Yinelemeli işlemleri optimize et
+                // Recursive processing for nested children
                 if (childProps.children) {
                     return React.cloneElement(child, {
                         children: processChildren(
@@ -68,6 +76,7 @@ const FieldArray = ({ name, children }: FieldArrayProps) => {
         });
     };
 
+    // Rendering the fields
     return (
         <>
             {Array.isArray(formData?.[name]) &&
@@ -79,56 +88,13 @@ const FieldArray = ({ name, children }: FieldArrayProps) => {
     );
 };
 
-const Add = ({ name = '', children }: FieldArrayAddProps) => {
-    const context = React.useContext(FormContext);
-    if (!context) {
-        throw new Error('FieldArray must be used within the Former component');
-    }
-    const { createField, getField } = context;
-    const handleCreateField = (name: string) => {
-        const fields = getField(name);
-        if (!Array.isArray(fields)) return;
-        const firstNullIndex = fields.findIndex(
-            (item) => item == null || Object.keys(item).length === 0
-        );
-
-        if (firstNullIndex !== -1) {
-            createField(name + '[' + firstNullIndex + ']', {});
-            return;
-        } else {
-            createField(name + '[' + fields.length + ']', {});
-            return;
-        }
-    };
-    return <div onClick={() => handleCreateField(name)}>{children}</div>;
-};
-
+// Adding the Add component as a static property of FieldArray
 FieldArray.Add = Add;
 
-const Remove = ({ name = '', children }: FieldArrayRemoveProps) => {
-    const context = React.useContext(FormContext);
-    if (!context) {
-        throw new Error('FieldArray must be used within the Former component');
-    }
-    const { deleteField } = context;
-    const handleDeleteField = (name: string) => {
-        deleteField(name);
-    };
-    return <div onClick={() => handleDeleteField(name)}>{children}</div>;
-};
-
+// Adding the Remove component as a static property of FieldArray
 FieldArray.Remove = Remove;
 
-const Preview = ({ name }: { name: string }) => {
-    const context = React.useContext(FormContext);
-    if (!context) {
-        throw new Error('FieldArray must be used within the Former component');
-    }
-    const { getField } = context;
-    const data = getField(name);
-
-    return <div>{renderData(data)}</div>;
-};
-
+// Adding the Preview component as a static property of FieldArray
 FieldArray.Preview = Preview;
+
 export default FieldArray;

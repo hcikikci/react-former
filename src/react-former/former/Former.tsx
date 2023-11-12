@@ -1,20 +1,24 @@
 import React, { createContext, ReactNode, useState } from 'react';
 
+// Importing hooks and types
 import { useFormState } from '../hooks/useFormState';
 import { FormContextProps } from '../types/FormContextProps';
 import { FormErrors } from '../types/FormErrors';
 import { FormErrorProvider } from '../hooks/useFormError';
 
+// Importing Skeleton for loading states
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { FormDataValue } from '../types/FormData';
 import { FormerProps } from '../types/FormerProps';
 
+// Creating a context for the form
 export const FormContext = createContext<FormContextProps | undefined>(
     undefined
 );
 
+// Former component - a custom form component
 export const Former: React.FC<FormerProps> = ({
     children,
     onChange,
@@ -23,6 +27,7 @@ export const Former: React.FC<FormerProps> = ({
     className,
     validate,
 }) => {
+    // Using useFormState hook to manage form state
     const {
         formData,
         getField,
@@ -33,13 +38,16 @@ export const Former: React.FC<FormerProps> = ({
         initialDataLoaded,
     } = useFormState(initialData === undefined ? {} : initialData);
 
+    // State for managing form errors
     const [formErrors, setFormErrors] = useState<FormErrors>({});
 
+    // Function to update field values and trigger onChange callback
     const updateField = (fieldName: string, value: FormDataValue) => {
         _updateField(fieldName, value);
         onChange?.(fieldName, value);
     };
 
+    // Handling form submission
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         if (validate) {
@@ -53,6 +61,7 @@ export const Former: React.FC<FormerProps> = ({
         onSubmit?.(formData);
     };
 
+    // Function to count total children components for skeleton size
     const countTotalChildren = (children: ReactNode): number => {
         let total = 0;
         React.Children.forEach(children, (child) => {
@@ -66,10 +75,10 @@ export const Former: React.FC<FormerProps> = ({
         return total;
     };
 
+    // Display loading skeletons if initial data is not loaded
     if (!initialDataLoaded) {
         return (
             <form className={className ? className : undefined}>
-                {/* Skeleton bileşenleri ile yükleniyor göstergesi */}
                 {React.Children.map(children, (child) =>
                     React.isValidElement(child) ? (
                         <Skeleton
@@ -82,10 +91,12 @@ export const Former: React.FC<FormerProps> = ({
         );
     }
 
+    // Display error if there is an error in loading initial data
     if (initialDataError) {
         return <div>Error: {initialDataError}</div>;
     }
 
+    // Providing form context and error context to children
     return (
         <FormContext.Provider
             value={{
