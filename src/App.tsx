@@ -1,7 +1,7 @@
 import React from 'react';
 import {ErrorMessage, Field, FieldArray, Former, FormErrors, FormData} from "./react-former";
 
-function App() {
+const App = () => {
 
     const friends = [
         {name: "John", age: 20},
@@ -9,9 +9,6 @@ function App() {
         {name: "Jack", age: 40},
     ]
 
-    const initialData = {
-        friends
-    }
     const validate = (formData: FormData) => {
         const errors: FormErrors = {};
         if (!formData.username) {
@@ -23,7 +20,7 @@ function App() {
         return errors;
     };
 
-    async function fetchData() {
+    const fetchData = async() => {
         // Burada API isteğinizi yapın, örnek olarak sabit bir veri döndürülüyor
         return new Promise(resolve => {
             setTimeout(() => {

@@ -12,7 +12,7 @@ import {
     UpdateFieldFunction
 } from "../types/FormContextProps";
 
-export function useFormState(initialData: FormData | Promise<any>) {
+export const useFormState = (initialData: FormData | Promise<any>) => {
     const [formData, setFormData] = useState<FormData>({});
     const [initialDataLoaded, setInitialDataLoaded] = useState<boolean>(false);
     const [initialDataError, setInitialDataError] = useState<boolean | string>(false);
