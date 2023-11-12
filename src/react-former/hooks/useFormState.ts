@@ -1,32 +1,36 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from 'react';
 
 import set from 'lodash/set';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
 
-import {FormData} from "../types/FormData";
+import { FormData } from '../types/FormData';
 import {
     CreateFieldFunction,
     DeleteFieldFunction,
     GetFieldFunction,
-    UpdateFieldFunction
-} from "../types/FormContextProps";
+    UpdateFieldFunction,
+} from '../types/FormContextProps';
 
 export const useFormState = (initialData: FormData | Promise<any>) => {
     const [formData, setFormData] = useState<FormData>({});
     const [initialDataLoaded, setInitialDataLoaded] = useState<boolean>(false);
-    const [initialDataError, setInitialDataError] = useState<boolean | string>(false);
+    const [initialDataError, setInitialDataError] = useState<boolean | string>(
+        false
+    );
     const isInitialDataProcessed = useRef(false);
 
     useEffect(() => {
         if (!isInitialDataProcessed.current) {
             if (initialData instanceof Promise) {
-                initialData.then(data => {
-                    setFormData(data);
-                    setInitialDataLoaded(true);
-                }).catch(error => {
-                    setInitialDataError(error);
-                });
+                initialData
+                    .then((data) => {
+                        setFormData(data);
+                        setInitialDataLoaded(true);
+                    })
+                    .catch((error) => {
+                        setInitialDataError(error);
+                    });
             } else {
                 setFormData(initialData);
                 setInitialDataLoaded(true);
@@ -40,16 +44,20 @@ export const useFormState = (initialData: FormData | Promise<any>) => {
     };
 
     const createField: CreateFieldFunction = (fieldName, value) => {
-        setFormData(prevFormData => set({...prevFormData}, fieldName, value));
+        setFormData((prevFormData) =>
+            set({ ...prevFormData }, fieldName, value)
+        );
     };
 
     const updateField: UpdateFieldFunction = (fieldName, value) => {
-        setFormData(prevFormData => set({...prevFormData}, fieldName, value));
+        setFormData((prevFormData) =>
+            set({ ...prevFormData }, fieldName, value)
+        );
     };
 
     const deleteField: DeleteFieldFunction = (fieldName) => {
-        setFormData(prevFormData => {
-            const newFormData = {...prevFormData};
+        setFormData((prevFormData) => {
+            const newFormData = { ...prevFormData };
             unset(newFormData, fieldName);
             return newFormData;
         });
@@ -63,7 +71,6 @@ export const useFormState = (initialData: FormData | Promise<any>) => {
         updateField,
         deleteField,
         initialDataLoaded,
-        initialDataError
+        initialDataError,
     };
-}
-
+};

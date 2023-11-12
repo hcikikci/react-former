@@ -1,17 +1,19 @@
-import {ReactNode} from "react";
+import React, { ReactNode } from 'react';
 
-import {FormDataValue} from "../types/FormData";
+import { FormDataValue } from '../types/FormData';
 
 export const renderData = (data: FormDataValue): ReactNode => {
     if (data === null || data === undefined) {
         return <span>Veri Yok</span>;
-    } else if (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean') {
+    } else if (
+        typeof data === 'string' ||
+        typeof data === 'number' ||
+        typeof data === 'boolean'
+    ) {
         return <span>{data.toString()}</span>;
     } else if (Array.isArray(data)) {
         return data.map((item, index) => (
-            <div key={index}>
-                {renderData(item)}
-            </div>
+            <div key={index}>{renderData(item)}</div>
         ));
     } else if (typeof data === 'object') {
         return (

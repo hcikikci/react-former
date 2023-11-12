@@ -1,5 +1,5 @@
-import {FormData, FormDataValue} from "./FormData";
-import {FormErrors} from "./FormErrors";
+import { FormData, FormDataValue } from './FormData';
+import { FormErrors } from './FormErrors';
 
 export interface FormerProps {
     children: React.ReactNode;

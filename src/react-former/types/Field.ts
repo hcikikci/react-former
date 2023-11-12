@@ -1,10 +1,21 @@
-import React from "react";
+import React from 'react';
 
-import {FormDataValue} from "./FormData";
+import { FormDataValue } from './FormData';
 
 export interface FieldType {
     name: string;
-    type: 'select' | 'text' | 'checkbox' | 'radio' | 'number' | 'password' | 'date' | 'email' | 'file' | 'color' | 'range';
+    type:
+        | 'select'
+        | 'text'
+        | 'checkbox'
+        | 'radio'
+        | 'number'
+        | 'password'
+        | 'date'
+        | 'email'
+        | 'file'
+        | 'color'
+        | 'range';
     required?: boolean;
     label?: string;
     customInitialValue?: FormDataValue;

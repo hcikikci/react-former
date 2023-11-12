@@ -1,5 +1,5 @@
-import {ReactNode} from "react";
-import {FormErrors} from "./FormErrors";
+import { ReactNode } from 'react';
+import { FormErrors } from './FormErrors';
 
 export interface FormErrorProviderProps {
     children: ReactNode;
