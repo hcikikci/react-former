@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+# React Former - React Form Library
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+Former is an interactive and flexible collection of React form components and hooks, designed to make form handling in React applications effortless and efficient. With its easy-to-use API and extendable structure, Former simplifies the process of creating, validating, and managing forms in modern web applications.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Easy Integration**: Seamlessly integrates with your React projects.
+- **Customizable Components**: Offers a range of customizable form components.
+- **Hooks for Form Management**: Utilizes custom hooks for managing form state and behavior.
+- **Validation Support**: Includes built-in mechanisms for form validation.
+- **Extensible and Maintainable**: Designed to be easily extendable and maintainable.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+npm install react-former
+```
 
-### `npm test`
+or
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+yarn add react-former
+```
 
-### `npm run build`
+## Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Here is a simple example of how to use the `Former` component:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```jsx
+import React from 'react';
+import { Former, Field } from 'react-former';
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const MyForm = () => {
+const handleSubmit = (formData) => {
+console.log(formData);
+};
 
-### `npm run eject`
+return (
+<Former onSubmit={handleSubmit}>
+<Field name="username" type="text" placeholder="Username" />
+<Field name="password" type="password" placeholder="Password" />
+<button type="submit">Submit</button>
+</Former>
+);
+};
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export default MyForm;
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## API Reference
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### `<Former>`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Props:
+- `onSubmit`: Function - Callback function on form submission.
+- `initialData`: Object - Initial data for form fields.
+- ...other props...
 
-## Learn More
+### `<Field>`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Props:
+- `name`: String - Name of the field.
+- `type`: String - Type of the field (text, password, email, etc.).
+- ...other props...
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contributing
+
+Contributions are always welcome! Please read the [contributing guide](./CONTRIBUTING.md) to learn how you can help.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](./LICENSE) for more information.

@@ -1,26 +1,28 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "outDir": "./dist/", // Derleme çıktısı için dizin
+    "declaration": true,
+    "declarationDir": "./dist", // Tanımlama dosyalarının çıktısı için dizin
+    "sourceMap": true, // Kaynak haritaları oluştur
+    "noImplicitAny": true, // any tipi için uyarılar ver
+    "module": "esnext", // Modül sistemi
+    "target": "es5", // JavaScript hedef versiyonu
+    "jsx": "react", // JSX için React modu
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "rootDir": "./src",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "skipLibCheck": true
   },
-  "include": [
-    "src"
-  ]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
+  "include": ["./src/**/*"]
 }
