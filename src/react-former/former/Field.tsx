@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import Select from 'react-select';
+import React, { CSSProperties, useContext } from 'react';
+import Select, { StylesConfig } from 'react-select';
 
 // Importing context and components
 import { FormContext } from './Former';
@@ -14,8 +14,6 @@ import { FieldType } from '../types/Field';
 const defaultProps = {
     required: false,
     type: 'text',
-    className: getDefaultClass(),
-    style: getDefaultStyle(),
 };
 
 // Field component for form inputs
@@ -51,8 +49,8 @@ const Field = ({
         key: name,
         name: name,
         required,
-        className,
-        style,
+        className: className || getDefaultClass(type),
+        style: style || (getDefaultStyle(type) as CSSProperties),
         defaultValue: isDefaultValueValid ? initialValue : undefined,
         placeholder: placeholder || label || name,
         onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -74,6 +72,7 @@ const Field = ({
             onChange={(selectedOption: any) =>
                 updateField(name, selectedOption?.value)
             }
+            styles={getDefaultStyle('select') as StylesConfig} //TODO: add support for custom styles
         />
     );
 

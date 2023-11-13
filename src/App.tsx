@@ -40,7 +40,7 @@ const App = () => {
             <Former
                 validate={validate}
                 initialData={fetchData()}
-                className="bg-gray-100 grid grid-cols-2 gap-10 p-10 m-10  shadow"
+                className="border grid grid-cols-2 gap-10 p-10 m-10  shadow"
                 onSubmit={(data) => console.log(data)}
             >
                 <div>
