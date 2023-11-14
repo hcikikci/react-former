@@ -18,8 +18,11 @@ export const Add = ({ name = '', children }: FieldArrayAddProps) => {
 
     // Function to handle the creation of a new field
     const handleCreateField = (name: string) => {
-        const fields = getField(name);
-        if (!Array.isArray(fields)) return;
+        let fields = getField(name);
+        if (!Array.isArray(fields)) {
+            createField(name, []);
+            fields = [];
+        }
         const firstNullIndex = fields.findIndex(
             (item) => item == null || Object.keys(item).length === 0
         );

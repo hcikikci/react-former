@@ -67,31 +67,23 @@ const App = () => {
                     placeholder={'deneme'}
                 />
 
-                <FieldArray name={'friends'}>
-                    <div>
-                        <FieldArray.Preview name={'name'} />
-                        <Field
-                            name={`name`}
-                            type={'text'}
-                            label={'Friend Name'}
-                        />
-                        <Field
-                            name={`age`}
-                            type={'text'}
-                            label={'Friend Age'}
-                        />
-                        <Field
-                            name={`deneme`}
-                            type={'text'}
-                            label={'Friend Deneme'}
-                        />
-                        <FieldArray.Remove>
-                            <button type={'button'}>Remove Friend</button>
-                        </FieldArray.Remove>
-                    </div>
-
+                <FieldArray name={'address'}>
+                    <Field
+                        placeholder="Company BV"
+                        name={'Company'}
+                        type={'text'}
+                        label={'Company name*'}
+                        required
+                    />
+                    <Field
+                        placeholder="Name"
+                        name={'FirstName'}
+                        type={'text'}
+                        label={'Company name*'}
+                        required
+                    />
                     <FieldArray.Add renderInLoop={false}>
-                        <button type={'button'}>Add Friend</button>
+                        <button>Add</button>
                     </FieldArray.Add>
                 </FieldArray>
                 <button
