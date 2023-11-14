@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { StylesConfig } from 'react-select';
 
 export interface FormeraConfig {
@@ -46,4 +46,5 @@ export interface FormeraConfig {
         class?: string;
         style?: React.CSSProperties;
     };
+    inputWithLabel?: (label: string, input: ReactNode) => ReactElement;
 }
