@@ -1,4 +1,7 @@
-const formeraConfig = {
+import React, { ReactNode } from 'react';
+import { FormeraConfig } from './react-former/types/FormeraConfig';
+
+const formeraConfig: FormeraConfig = {
     selectStyles: {
         style: {
             control: (base: any) => ({
@@ -58,6 +61,12 @@ const formeraConfig = {
             background: '#F5F6FA',
         },
     },
+    inputWithLabel: (label: string, field: ReactNode) => (
+        <div className="flex flex-col">
+            <label className="text-sm text-gray-600">{label}</label>
+            {field}
+        </div>
+    ),
 };
 
 export default formeraConfig;

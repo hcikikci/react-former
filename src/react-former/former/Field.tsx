@@ -9,6 +9,7 @@ import { useFormError } from '../hooks/useFormError';
 
 // Importing type definitions
 import { FieldType } from '../types/Field';
+import { formeraConfig } from '../config/config';
 
 // Define default prop values for the Field component
 const defaultProps = {
@@ -116,14 +117,15 @@ const Field = ({
         : renderTextField();
 
     // Conditional rendering based on whether a label is provided TODO: add support for custom label component
-    return label ? (
-        <div className="flex flex-col space-y-1">
-            <label htmlFor={name}>{label}</label>
-            {fieldComponent}
-        </div>
-    ) : (
-        fieldComponent
-    );
+    return label
+        ? (formeraConfig.inputWithLabel &&
+              formeraConfig.inputWithLabel(label, fieldComponent)) || (
+              <div className="flex flex-col space-y-1">
+                  <label htmlFor={name}>{label}</label>
+                  {fieldComponent}
+              </div>
+          )
+        : fieldComponent;
 };
 
 // Setting default properties for the Field component
