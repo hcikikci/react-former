@@ -64,10 +64,7 @@ const App = () => {
                         { label: 'Male', value: 'Male' },
                         { label: 'Female', value: 'Female' },
                     ]}
-                    customInitialValue={{
-                        label: 'Valemale',
-                        value: 'Valemale',
-                    }}
+                    placeholder={'deneme'}
                 />
 
                 <FieldArray name={'friends'}>

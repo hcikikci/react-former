@@ -64,10 +64,8 @@ const Field = ({
             {...commonProps}
             defaultValue={
                 customInitialValue ||
-                options?.find((option) => option.value === initialValue) || {
-                    label: name,
-                    value: name,
-                }
+                options?.find((option) => option.value === initialValue) ||
+                null
             }
             options={options}
             onChange={(selectedOption: any) =>
