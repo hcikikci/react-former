@@ -1,6 +1,6 @@
 {
   "name": "react-formera",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "./dist/bundle.js",
   "types": "./dist/index.d.ts",
   "description": "An interactive and flexible collection of React form components and hooks, offering easy-to-use and extendable form management for modern web applications.",
