@@ -6,10 +6,19 @@ import React from 'react';
 import { FieldArraySaveProps } from '../types/FieldArraySaveProps';
 
 // Add component for adding new items to the field array
-export const Save = ({ children, onClick }: FieldArraySaveProps) => {
+export const Save = ({
+    children,
+    onClick,
+    setItemStateAfterSave,
+    updateItemState,
+}: FieldArraySaveProps) => {
     const handleClick = () => {
         if (onClick) {
             onClick();
+        }
+        console.log(updateItemState, setItemStateAfterSave);
+        if (updateItemState && setItemStateAfterSave) {
+            updateItemState(setItemStateAfterSave);
         }
     };
 

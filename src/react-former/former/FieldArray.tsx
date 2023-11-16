@@ -156,9 +156,14 @@ const FieldArray = ({
                                 ? updateItemState(index, newState)
                                 : null,
                     });
-                } else if (isSave) {
+                } else if (isSave && index !== undefined) {
                     return React.cloneElement(child as ReactElement, {
                         onClick: () => handleSubmit(index),
+                        itemState: itemStates ? itemStates[index] : null,
+                        updateItemState: (newState: any) =>
+                            updateItemState
+                                ? updateItemState(index, newState)
+                                : null,
                     });
                 } else if (isManageState && index !== undefined) {
                     return React.cloneElement(child as ReactElement, {

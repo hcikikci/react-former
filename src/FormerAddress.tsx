@@ -157,9 +157,11 @@ export const FormerAddress = () => {
                         type={'email'}
                         required
                     />
-                    <FieldArray.Save>
+                    <FieldArray.Save
+                        setItemStateAfterSave={{ showModal: false }}
+                    >
                         <Button
-                            type={'button'}
+                            type={'submit'}
                             size={'md'}
                             className="col-span-2 mx-auto mt-5 !px-8"
                             color="success"
