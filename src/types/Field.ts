@@ -23,4 +23,7 @@ export interface FieldType {
     placeholder?: string;
     className?: string;
     style?: React.CSSProperties;
+    saveOnSubmit?:
+        | boolean
+        | ((fieldName: string, value: FormDataValue) => void);
 }

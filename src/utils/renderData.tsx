@@ -7,12 +7,16 @@ import { FormDataValue } from '../types/FormData';
  * Function to render data as a React component.
  * This function dynamically renders different types of data.
  * @param data - The data to be rendered, can be of various types.
+ * @param placeholderEmptyData
  * @returns A ReactNode that visually represents the input data.
  */
-export const renderData = (data: FormDataValue): ReactNode => {
+export const renderData = (
+    data: FormDataValue,
+    placeholderEmptyData?: ReactNode
+): ReactNode => {
     // Handling null or undefined data
     if (data === null || data === undefined) {
-        return <span>No Data</span>;
+        return placeholderEmptyData || <span>No Data</span>;
     }
     // Rendering basic data types (string, number, boolean)
     else if (

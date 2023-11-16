@@ -15,6 +15,7 @@ import { formeraConfig } from '../config/config';
 const defaultProps = {
     required: false,
     type: 'text',
+    saveOnSubmit: false,
 };
 
 // Field component for form inputs
@@ -28,6 +29,7 @@ const Field = ({
     label,
     className,
     style,
+    saveOnSubmit,
 }: FieldType) => {
     // Accessing context from the Form component
     const context = useContext(FormContext);
@@ -54,10 +56,13 @@ const Field = ({
         style: style || (getDefaultStyle(type) as CSSProperties),
         defaultValue: isDefaultValueValid ? initialValue : undefined,
         placeholder: placeholder || label || name,
-        onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-            updateField(name, event.target.value),
+        onChange:
+            typeof saveOnSubmit === 'function'
+                ? (event: React.ChangeEvent<HTMLInputElement>) =>
+                      saveOnSubmit(name, event.target.value)
+                : (event: React.ChangeEvent<HTMLInputElement>) =>
+                      updateField(name, event.target.value),
     };
-
     // Render functions for various input types
     const renderSelectField = () => (
         <Select
@@ -68,8 +73,12 @@ const Field = ({
                 null
             }
             options={options}
-            onChange={(selectedOption: any) =>
-                updateField(name, selectedOption?.value)
+            onChange={
+                typeof saveOnSubmit === 'function'
+                    ? (selectedOption: any) =>
+                          saveOnSubmit(name, selectedOption?.value)
+                    : (selectedOption: any) =>
+                          updateField(name, selectedOption?.value)
             }
             styles={getDefaultStyle('select') as StylesConfig} //TODO: add support for custom styles
         />

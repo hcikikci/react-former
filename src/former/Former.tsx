@@ -37,7 +37,6 @@ export const Former: React.FC<FormerProps> = ({
         initialDataError,
         initialDataLoaded,
     } = useFormState(initialData === undefined ? {} : initialData);
-
     // State for managing form errors
     const [formErrors, setFormErrors] = useState<FormErrors>({});
 

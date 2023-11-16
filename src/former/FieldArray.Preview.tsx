@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 // Importing context and components
 import { FormContext } from './Former';
 import { renderData } from '../utils/renderData';
 
 // Preview component for displaying data
-export const Preview = ({ name }: { name: string }) => {
+export const Preview = ({
+    name,
+    placeholderEmptyData,
+}: {
+    name: string;
+    placeholderEmptyData?: ReactNode;
+}) => {
     const context = React.useContext(FormContext);
 
     // Ensuring Preview is used within a FormContext provider
@@ -16,5 +22,5 @@ export const Preview = ({ name }: { name: string }) => {
     const data = getField(name);
 
     // Rendering the data using a utility function
-    return <div>{renderData(data)}</div>;
+    return <div>{renderData(data, placeholderEmptyData)}</div>;
 };
