@@ -8,6 +8,7 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { addresstypeenumArray } from './Addresstypeenum';
 import FieldArray from './react-former/former/FieldArray';
 import Field from './react-former/former/Field';
+import { TrashIcon } from '@heroicons/react/24/solid';
 
 export const FormerAddress = () => {
     const [itemStates, setItemStates] = React.useState<any[]>([]);
@@ -37,6 +38,16 @@ export const FormerAddress = () => {
                         itemState={true}
                         updateItemState={true}
                     />
+                    <FieldArray.Remove>
+                        <CircleButton
+                            className="group absolute top-3 right-14 bg-error hover:scale-110 hover:bg-error"
+                            size="sm"
+                            secondaryVariant="outline"
+                            color="ghost"
+                        >
+                            <TrashIcon className="!w-3.5 !h-3.5 text-inherit text-white" />
+                        </CircleButton>
+                    </FieldArray.Remove>
                     <FieldArray.Preview name={'Company'} />
                     <div className="flex space-x-1">
                         <FieldArray.Preview name={'FirstName'} />{' '}
