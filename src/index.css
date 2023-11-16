@@ -1,3 +1,221 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    table tr.innerShowingSelected td:first-child {
+        @apply rounded-tl-3xl;
+
+    }
+    table tr.innerShowingSelected td:last-child {
+        @apply rounded-tr-3xl;
+
+    }
+    table tr td:not(:first-child):not(:has(.notCenter)) span {
+        @apply mx-auto w-fit flex place-items-center;
+    }
+    table th:not(:first-child) {
+        @apply text-center;
+    }
+
+
+    table tr.innerShowing td:first-child {
+
+        @apply rounded-tl-3xl;
+        @apply rounded-bl-3xl;
+    }
+    table tr.innerShowing td:last-child {
+
+        @apply rounded-tr-3xl;
+        @apply rounded-br-3xl;
+    }
+}
+
+
+/* TABLE */
+.table thead tr th {
+    padding-bottom: 0.8rem !important;
+}
+.table :where(th, td) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+.table :where(thead, tbody) :where(tr:not(:last-child)), .table :where(thead, tbody) :where(tr:first-child:last-child) {
+    border-bottom-width: 1px;
+    --tw-border-opacity: 1;
+    border-bottom-color: #F5F6FA;
+}
+
+/* Daisy UI config */
+
+.btn {
+    min-height: fit-content !important;
+    height: fit-content !important;
+    border-color: #aec3d64d !important;
+}
+
+
+
+.btn-circle {
+    aspect-ratio: 1/1 !important;
+    object-fit: contain !important;
+}
+
+button {
+    --btn-text-case: default;
+    font-weight: 400 !important;
+}
+
+.input {
+    height: 40px !important;
+}
+
+.input:focus {
+    outline: none; /* Varsayılan odak border'ını kaldırır */
+}
+
+.breadcrumbs > ul > li + *:before,
+.breadcrumbs > ol > li + *:before {
+    content: "/";
+    --tw-rotate: none;
+    border: none;
+    transform: none;
+    margin: 0 0.3rem;
+    height: auto;
+    width: auto;
+}
+
+/* RC Slider custom */
+
+.rc-slider-track {
+    @apply !bg-success;
+    height: 8px !important;
+}
+
+.rc-slider-rail {
+    @apply !bg-light-gray;
+    height: 8px !important;
+}
+
+.rc-slider-handle {
+    margin-top: -3px !important;
+}
+
+/* Custom Scrollbar */
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #bdc2d1 #f5f6fa;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 2px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #f5f6fa;
+    border-radius: 15px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #bdc2d1;
+    border-radius: 15px;
+}
+
+.tooltip:before {
+    border-radius: 1.25rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    box-shadow:
+            6px 6px 30px 0px rgba(174, 195, 214, 0.29),
+            0px 2px 4px 0px rgba(85, 102, 153, 0.11) !important;
+}
+
+/* AVATAR */
+
+.ring-offset-2 {
+    --tw-ring-offset-width: 2px;
+}
+
+.ring {
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+}
+
+/* DROPDOWN */
+
+.dropdown-content li a:hover {
+    background-color: transparent !important;
+}
+.dropdown-content li a:focus {
+    background-color: transparent !important;
+}
+.dropdown-content li a {
+    font-size: 12px;
+}
+
+
+/* PROGRESS */
+.progress {
+    background-color: #f5f6fa !important;
+}
+
+/* for inactive hover menu buttons */
+.disabled {
+    opacity: 0.5;
+    position: relative;
+}
+
+.disabled::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #BDC2D1;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+    z-index: 1;
+}
+
+/* grayed out style for inactive things */
+.grayed-out {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* select set size for icon */
+.css-1xc3v61-indicatorContainer svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* select set size for indicator */
+.badge-xs {
+    height: 0.63rem !important;
+    width: 0.63rem !important;
+    font-size: 0.63rem;
+    line-height: .75rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+/* TOOLTIP */
+.tooltip:before {
+    font-size: 0.75rem; /* 12px */
+}
+
+/* Number input arrow hide */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+    /* Firefox */
+}

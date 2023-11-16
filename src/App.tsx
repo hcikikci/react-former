@@ -1,99 +1,67 @@
 import React from 'react';
-import {
-    ErrorMessage,
-    Field,
-    FieldArray,
-    Former,
-    FormErrors,
-    FormData,
-} from './react-former';
+import { Field, Former, FormData } from './react-former';
+import FormerAddress from './FormerAddress';
+import Card from './Card';
 
 const App = () => {
-    const friends = [
-        { name: 'John', age: 20 },
-        { name: 'Jane', age: 30, id: 1 },
-        { name: 'Jack', age: 40 },
+    const customertypeenumArray = ['Supplier', 'Customer', 'Company'];
+    // const validate = (formData: FormData) => {
+    //     const errors: FormErrors = {};
+    //     if (!formData.username) {
+    //         errors.username = 'Kullanıcı adı gerekli.';
+    //     }
+    //     if (!formData.firstName) {
+    //         errors.firstName = 'First Name is required';
+    //     }
+    //     return errors;
+    // };
+
+    // const fetchData = async () => {
+    //     // Burada API isteğinizi yapın, örnek olarak sabit bir veri döndürülüyor
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             resolve({ friends });
+    //         }, 2000);
+    //     });
+    // };
+    const createCustomer = async (data: FormData) => {
+        console.log(data);
+    };
+
+    const platforms = [
+        { value: '1', label: 'Platform 1' },
+        { value: '2', label: 'Platform 2' },
+        { value: '3', label: 'Platform 3' },
     ];
-
-    const validate = (formData: FormData) => {
-        const errors: FormErrors = {};
-        if (!formData.username) {
-            errors.username = 'Kullanıcı adı gerekli.';
-        }
-        if (!formData.firstName) {
-            errors.firstName = 'First Name is required';
-        }
-        return errors;
-    };
-
-    const fetchData = async () => {
-        // Burada API isteğinizi yapın, örnek olarak sabit bir veri döndürülüyor
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({ friends });
-            }, 2000);
-        });
-    };
-
     return (
-        <div className="flex flex-col">
-            <Former
-                validate={validate}
-                initialData={fetchData()}
-                className="border grid grid-cols-2 gap-10 p-10 m-10  shadow"
-                onSubmit={(data) => console.log(data)}
-            >
-                <div>
+        <Former onSubmit={createCustomer} className="flex flex-col gap-4">
+            <Card title="Customer details">
+                <div className="grid grid-cols-3 gap-4 mt-4">
                     <Field
-                        name={'username'}
-                        type={'text'}
-                        label={'Username'}
+                        name="Type"
+                        label="Customer type*"
                         required
+                        type={'select'}
+                        options={customertypeenumArray.map((item) => ({
+                            label: item,
+                            value: item,
+                        }))}
                     />
-                    <ErrorMessage fieldName={'username'} />
+                    <Field
+                        placeholder={'Customer Platform'}
+                        name="AppInstallID"
+                        options={platforms}
+                        label="Customer platform*"
+                        required
+                        type={'select'}
+                    />
                 </div>
-                <Field name={'firstName'} type={'text'} label={'First Name'} />
-                <ErrorMessage fieldName={'firstName'} />
-                <Field name={'lastName'} type={'text'} label={'Last Name'} />
-                <Field name={'age'} type={'text'} label={'Age'} required />
-                <Field
-                    name={'gender'}
-                    type={'select'}
-                    label={'Gender'}
-                    options={[
-                        { label: 'Male', value: 'Male' },
-                        { label: 'Female', value: 'Female' },
-                    ]}
-                    placeholder={'deneme'}
-                />
-
-                <FieldArray name={'address'}>
-                    <Field
-                        placeholder="Company BV"
-                        name={'Company'}
-                        type={'text'}
-                        label={'Company name*'}
-                        required
-                    />
-                    <Field
-                        placeholder="Name"
-                        name={'FirstName'}
-                        type={'text'}
-                        label={'Company name*'}
-                        required
-                    />
-                    <FieldArray.Add renderInLoop={false}>
-                        <button>Add</button>
-                    </FieldArray.Add>
-                </FieldArray>
-                <button
-                    type={'submit'}
-                    className="bg-black text-white px-8 py-1 mx-auto w-fit rounded-3xl"
-                >
-                    Submit
-                </button>
-            </Former>
-        </div>
+                <div className="bg-light-gray col-span-full grid grid-cols-2 gap-4 p-4 rounded-3xl">
+                    <FormerAddress />
+                </div>
+            </Card>
+            <button type={'submit'}>Submit</button>
+        </Former>
     );
 };
 

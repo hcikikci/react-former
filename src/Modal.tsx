@@ -10,7 +10,8 @@ import { CircleButton } from './Button';
 export type ModalProps = {
     open: boolean;
     onClose?: () => void;
-    className?: string;
+    innerClassName?: string;
+    notCloseClickWithOutside?: boolean;
 } & React.DialogHTMLAttributes<HTMLDialogElement>;
 
 /**
@@ -19,12 +20,19 @@ export type ModalProps = {
  * @param {ModalProps} props - Modal properties.
  * @returns JSX.Element
  */
-const Modal = ({ open, onClose, className, children }: ModalProps) => {
+const Modal = ({
+    open,
+    onClose,
+    // eslint-disable-next-line react/prop-types
+    className,
+    children,
+    notCloseClickWithOutside,
+}: ModalProps) => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
     };
     return (
-        <dialog className="modal  " open={open}>
+        <dialog className="modal" open={open}>
             <form
                 onSubmit={(e: any) => handleSubmit(e)}
                 method="dialog"
@@ -35,7 +43,7 @@ const Modal = ({ open, onClose, className, children }: ModalProps) => {
                     type="submit"
                     size="sm"
                     color="base-100"
-                    className="absolute right-4 top-4 text-gray hover:text-black"
+                    className="absolute right-4 top-4 text-gray hover:text-black bg-light-gray"
                 >
                     ✕
                 </CircleButton>
@@ -43,7 +51,10 @@ const Modal = ({ open, onClose, className, children }: ModalProps) => {
             </form>
             <form
                 method="dialog"
-                className="modal-backdrop bg-black opacity-20"
+                className={
+                    'modal-backdrop bg-black opacity-20 ' +
+                    (notCloseClickWithOutside ? ' pointer-events-none ' : '')
+                }
             >
                 <button onClick={onClose}>close</button>
             </form>
@@ -58,23 +69,37 @@ export default Modal;
  *
  * @param children
  * @param className
+ * @param innerClassName
+ * @param notCloseClickWithOutside
  * @param {ModalProps} props - PrimaryModal properties.
  * @returns JSX.Element
  */
-export const PrimaryModal = ({ children, className, ...props }: ModalProps) => {
-    /** */
+export const PrimaryModal = ({
+    children,
+    // eslint-disable-next-line react/prop-types
+    className,
+    innerClassName,
+    notCloseClickWithOutside = false,
+    ...props
+}: ModalProps) => {
     return (
-        <Modal className={`relative ${className}`} {...props}>
+        <Modal
+            notCloseClickWithOutside={notCloseClickWithOutside}
+            className={`relative ${className}`}
+            {...props}
+        >
             <div className="rounded-full p-2 bg-light-gray w-fit h-fit absolute left-1/2 transform -translate-x-1/2 top-1.5">
-                {/*<img*/}
-                {/*    className=""*/}
-                {/*    width={54}*/}
-                {/*    height={54}*/}
-                {/*    src="/logo/logo.png"*/}
-                {/*    alt="random image"*/}
-                {/*/>*/}
+                <img
+                    className=""
+                    width={54}
+                    height={54}
+                    src="/logo/logo.png"
+                    alt="random image"
+                />
             </div>
-            <div className="border rounded-csm w-full h-full p-8 pt-12">
+            <div
+                className={`border rounded-csm w-full h-full p-8 pt-12 ${innerClassName}`}
+            >
                 {children}
             </div>
         </Modal>

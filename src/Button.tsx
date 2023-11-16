@@ -23,6 +23,7 @@ import React from 'react';
  */
 
 export type ButtonProps = {
+    onClick?: () => void;
     children?: string | React.ReactNode;
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
@@ -57,11 +58,10 @@ export type ButtonProps = {
         | 'info'
         | 'ghost';
     className?: string;
-    type?: 'button' | 'submit' | 'reset';
-    onClick?: () => void;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
+    /**Standard, VerticalButtonWithIcon, CircleIconButton, ButtonWithIcon**/
     size = 'md',
     color = 'accent',
     primaryVariant,
@@ -70,6 +70,7 @@ export const Button = ({
     children,
     iconLeft,
     iconRight,
+    // eslint-disable-next-line react/prop-types
     type = 'button',
     ...rest
 }: ButtonProps) => {
@@ -113,7 +114,7 @@ export const Button = ({
 
     // Constructing the button's class names based on the provided props
     const classNames = `
-    btn text-xs 
+    btn text-xs
     ${
         primaryVariant == 'circle'
             ? BUTTON_STYLES.circleSize[size]
