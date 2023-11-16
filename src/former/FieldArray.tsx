@@ -139,9 +139,15 @@ const FieldArray = ({
                         fieldData.length > 0
                     ) {
                         const lastItem = fieldData[fieldData.length - 1];
+                        console.log(
+                            lastItem,
+                            validateAllRequiredFieldsIsFilled(),
+                            lastItem && Object.keys(lastItem).length === 0
+                        );
                         if (
-                            (lastItem && Object.keys(lastItem).length === 0) ||
-                            !validateAllRequiredFieldsIsFilled()
+                            lastItem &&
+                            (Object.keys(lastItem).length === 0 ||
+                                !validateAllRequiredFieldsIsFilled())
                         ) {
                             return null;
                         }
