@@ -7,7 +7,13 @@ import { FormContext } from './Former';
 import { FieldArrayAddProps } from '../types/FieldArrayAddProps';
 
 // Add component for adding new items to the field array
-export const Add = ({ name = '', children }: FieldArrayAddProps) => {
+export const Add = ({
+    name = '',
+    children,
+    initialItemState,
+    itemState,
+    updateItemState,
+}: FieldArrayAddProps) => {
     const context = React.useContext(FormContext);
 
     // Ensuring Add is used within a FormContext provider
@@ -30,9 +36,11 @@ export const Add = ({ name = '', children }: FieldArrayAddProps) => {
         // Logic for creating a new field in the array
         if (firstNullIndex !== -1) {
             createField(name + '[' + firstNullIndex + ']', {});
+            updateItemState({ ...itemState, ...initialItemState });
             return;
         } else {
             createField(name + '[' + fields.length + ']', {});
+            updateItemState({ ...itemState, ...initialItemState });
             return;
         }
     };
