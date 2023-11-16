@@ -25,11 +25,15 @@ const Modal = ({
     onClose,
     // eslint-disable-next-line react/prop-types
     className,
+    // eslint-disable-next-line react/prop-types
+    onSubmit,
     children,
     notCloseClickWithOutside,
 }: ModalProps) => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        console.log('submit oldu');
+        onSubmit && onSubmit(e);
     };
     return (
         <dialog className="modal" open={open}>

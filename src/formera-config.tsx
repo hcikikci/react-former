@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-import { FormeraConfig } from './react-former/types/FormeraConfig';
 
-const formeraConfig: FormeraConfig = {
+const formeraConfig = {
     selectStyles: {
         style: {
             control: (base: any) => ({
@@ -17,6 +16,10 @@ const formeraConfig: FormeraConfig = {
                     border: '1px solid rgba(174, 195, 214, 0.30)',
                     cursor: 'pointer',
                 },
+            }),
+            placeholder: (base: any) => ({
+                ...base,
+                color: '#BDC2D1',
             }),
             menu: (base: any) => ({
                 ...base,
@@ -56,14 +59,20 @@ const formeraConfig: FormeraConfig = {
         },
     },
     textStyles: {
-        class: 'input border border-4 rounded-3xl py-2 px-3 bg-gray input-bordered w-full rounded-csm max-w-md text-black placeholder:text-gray placeholder:text-xs border-primary text-xs',
+        class: 'input border border-2 rounded-3xl py-2 px-3 bg-gray input-bordered w-full rounded-csm max-w-md text-black placeholder:text-gray placeholder:text-xs border-primary text-xs',
+        style: {
+            background: '#F5F6FA',
+        },
+    },
+    emailStyles: {
+        class: 'input border border-2 rounded-3xl py-2 px-3 bg-gray input-bordered w-full rounded-csm max-w-md text-black placeholder:text-gray placeholder:text-xs border-primary text-xs',
         style: {
             background: '#F5F6FA',
         },
     },
     inputWithLabel: (label: string, field: ReactNode) => (
-        <div className="flex flex-col">
-            <label className="text-sm text-gray-600">{label}</label>
+        <div className="flex flex-col space-y-2">
+            <label className="text-xs text-gray-600">{label}</label>
             {field}
         </div>
     ),

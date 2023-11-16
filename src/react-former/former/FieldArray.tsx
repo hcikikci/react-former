@@ -29,7 +29,7 @@ const FieldArray = ({
     if (!context) {
         throw new Error('FieldArray must be used within the Former component');
     }
-    const { formData, updateField } = context;
+    const { formData, updateField, getField } = context;
 
     const handleSubmit = (index: number | undefined) => {
         if (index === undefined) return;
@@ -39,6 +39,53 @@ const FieldArray = ({
             updateField(key + '.' + index, indexed);
         });
     };
+
+    const requiredFields = React.useMemo(() => {
+        const fields: string[] = [];
+
+        // Recursive bir fonksiyon tanımlayın
+        const processChildrenRecursively = (children: React.ReactNode) => {
+            React.Children.forEach(children, (child) => {
+                // Eğer geçerli bir React elementiyse
+                if (React.isValidElement(child)) {
+                    const childProps = child.props as FieldArrayElement;
+
+                    // Eğer Field bileşeni ve gerekliyse, ismini diziye ekleyin
+                    if (child.type === Field && childProps.required) {
+                        if (childProps.name != null) {
+                            fields.push(childProps.name);
+                        }
+                    }
+
+                    // Eğer çocukların da kendi içinde çocukları varsa, bu fonksiyonu tekrar çağırın
+                    if (childProps.children) {
+                        processChildrenRecursively(childProps.children);
+                    }
+                }
+            });
+        };
+
+        // Başlangıç noktası olarak children'ı fonksiyona verin
+        processChildrenRecursively(children);
+
+        return fields;
+    }, [children]);
+
+    const validateAllRequiredFieldsIsFilled = React.useCallback(() => {
+        const fieldData = getField(name);
+        console.log(fieldData);
+        const lastItem =
+            fieldData && Array.isArray(fieldData) ? fieldData.length - 1 : null;
+        let allFilled: boolean = true;
+        requiredFields.forEach((field) => {
+            const value = getField(name + '.' + lastItem + '.' + field);
+
+            if (value == null || value === '') {
+                allFilled = false;
+            }
+        });
+        return allFilled;
+    }, [requiredFields, getField]);
 
     // Function to process children components
     const processChildren = (
@@ -83,8 +130,31 @@ const FieldArray = ({
                         name: `${fieldName}`,
                     });
                 } else if (isAdd) {
+                    const fieldData = getField(fieldName);
+                    if (
+                        fieldData &&
+                        Array.isArray(fieldData) &&
+                        fieldData.length > 0
+                    ) {
+                        const lastItem = fieldData[fieldData.length - 1];
+                        if (
+                            (lastItem && Object.keys(lastItem).length === 0) ||
+                            !validateAllRequiredFieldsIsFilled()
+                        ) {
+                            return null;
+                        }
+                    }
+                    const index =
+                        fieldData && Array.isArray(fieldData)
+                            ? fieldData.length
+                            : 0;
                     return React.cloneElement(child as ReactElement, {
                         name: `${name}`,
+                        itemState: itemStates ? itemStates[index] : null,
+                        updateItemState: (newState: any) =>
+                            updateItemState
+                                ? updateItemState(index, newState)
+                                : null,
                     });
                 } else if (isSave) {
                     return React.cloneElement(child as ReactElement, {

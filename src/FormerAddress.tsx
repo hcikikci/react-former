@@ -169,7 +169,10 @@ export const FormerAddress = () => {
                     </FieldArray.Save>
                 </Modal>
             </div>
-            <FieldArray.Add renderInLoop={false}>
+            <FieldArray.Add
+                renderInLoop={false}
+                initialItemState={{ showModal: true }}
+            >
                 <div className="flex flex-col h-full">
                     <span className="text-sm mb-3 ml-9 mx-auto col-span-2 inline-flex space-x-1">
                         {' '}
