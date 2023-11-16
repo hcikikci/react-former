@@ -34,9 +34,11 @@ const FieldArray = ({
     const handleSubmit = (index: number | undefined) => {
         if (index === undefined) return;
         Object.keys(innerFormData).forEach((key) => {
-            const copied = structuredClone(innerFormData[key]);
-            const indexed = structuredClone(copied[index]);
-            updateField(key + '.' + index, indexed);
+            const value = innerFormData[key];
+            if (Array.isArray(value)) {
+                const indexed = structuredClone(value[index]);
+                updateField(key + '.' + index, indexed);
+            }
         });
     };
 
