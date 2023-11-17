@@ -21,7 +21,6 @@ export const FormerAddress = () => {
     const deleteItemState = (index: number) => {
         const updatedStates = [...itemStates];
         updatedStates.splice(index, 1);
-        console.log(updatedStates, 'updatedStates');
         setItemStates(updatedStates);
     };
 

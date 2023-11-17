@@ -27,7 +27,9 @@ const App = () => {
     const createCustomer = async (data: FormData) => {
         console.log(data);
     };
+    const [customerType, setCustomerType] = React.useState<string>('');
 
+    console.log(customerType);
     const platforms = [
         { value: '1', label: 'Platform 1' },
         { value: '2', label: 'Platform 2' },
@@ -38,6 +40,7 @@ const App = () => {
             <Card title="Customer details">
                 <div className="grid grid-cols-3 gap-4 mt-4">
                     <Field
+                        setExternalState={setCustomerType}
                         name="Type"
                         label="Customer type*"
                         required
