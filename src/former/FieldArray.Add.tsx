@@ -13,6 +13,7 @@ export const Add = ({
     initialItemState,
     itemState,
     updateItemState,
+    grayedOut,
 }: FieldArrayAddProps) => {
     const context = React.useContext(FormContext);
 
@@ -47,6 +48,12 @@ export const Add = ({
         }
     };
 
-    // Rendering the Add component
-    return <div onClick={() => handleCreateField(name)}>{children}</div>;
+    return (
+        <div
+            className={grayedOut ? 'grayed-out pointer-events-none' : undefined}
+            onClick={() => !grayedOut && handleCreateField(name)}
+        >
+            {children}
+        </div>
+    );
 };
