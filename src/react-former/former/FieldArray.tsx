@@ -155,7 +155,17 @@ const FieldArray = ({
                             (Object.keys(lastItem).length === 0 ||
                                 !validateAllRequiredFieldsIsFilled())
                         ) {
-                            return null;
+                            if (childProps?.grayedOut) {
+                                return React.cloneElement(
+                                    child as ReactElement,
+                                    {
+                                        name: `${name}`,
+                                        grayedOut: true,
+                                    }
+                                );
+                            } else {
+                                return null;
+                            }
                         }
                     }
                     const firstNullIndex = Array.isArray(fieldData)
@@ -177,6 +187,7 @@ const FieldArray = ({
                             updateItemState
                                 ? updateItemState(index, newState)
                                 : null,
+                        grayedOut: false,
                     });
                 } else if (isSave && index !== undefined) {
                     return React.cloneElement(child as ReactElement, {

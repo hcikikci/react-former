@@ -8,4 +8,5 @@ export type FieldArrayAddProps = {
     initialItemState?: any;
     itemState?: any;
     updateItemState?: any;
+    grayedOut?: boolean;
 };

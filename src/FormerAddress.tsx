@@ -193,6 +193,7 @@ export const FormerAddress = () => {
             <FieldArray.Add
                 renderInLoop={false}
                 initialItemState={{ showModal: true }}
+                grayedOut={true}
             >
                 <div className="flex flex-col h-full">
                     <span className="text-sm mb-3 ml-9 mx-auto col-span-2 inline-flex space-x-1">
