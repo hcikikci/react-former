@@ -32,7 +32,6 @@ const Modal = ({
 }: ModalProps) => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        console.log('submit oldu');
         onSubmit && onSubmit(e);
     };
     return (

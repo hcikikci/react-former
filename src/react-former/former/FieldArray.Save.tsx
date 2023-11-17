@@ -16,7 +16,6 @@ export const Save = ({
         if (onClick) {
             onClick();
         }
-        console.log(updateItemState, setItemStateAfterSave);
         if (updateItemState && setItemStateAfterSave) {
             updateItemState(setItemStateAfterSave);
         }

@@ -18,12 +18,20 @@ export const FormerAddress = () => {
         setItemStates(updatedStates);
     };
 
+    const deleteItemState = (index: number) => {
+        const updatedStates = [...itemStates];
+        updatedStates.splice(index, 1);
+        console.log(updatedStates, 'updatedStates');
+        setItemStates(updatedStates);
+    };
+
     return (
         <FieldArray
             name={'address'}
             saveOnSubmit={true}
             itemStates={itemStates}
             updateItemState={updateItemState}
+            deleteItemState={deleteItemState}
         >
             <div>
                 <span className="text-sm mb-3 ml-9 mx-auto col-span-2 inline-flex space-x-1">
@@ -208,7 +216,6 @@ const Modal = ({
     updateItemState?: any;
 }) => {
     const closeModal = () => {
-        console.log(updateItemState);
         updateItemState({ ...itemState, showModal: false });
     };
 
@@ -257,7 +264,6 @@ const Edit = ({
     updateItemState?: any;
 }) => {
     const showModal = () => {
-        console.log(updateItemState);
         updateItemState({ ...itemState, showModal: true });
     };
 

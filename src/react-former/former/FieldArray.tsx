@@ -21,10 +21,14 @@ const FieldArray = ({
     saveOnSubmit,
     itemStates,
     updateItemState,
+    deleteItemState,
 }: FieldArrayProps) => {
     const context = React.useContext(FormContext);
-    const { formData: innerFormData, updateField: innerUpdateField } =
-        useFormState({});
+    const {
+        formData: innerFormData,
+        updateField: innerUpdateField,
+        deleteField: innerDeleteField,
+    } = useFormState({});
     // Ensuring FieldArray is used within a FormContext provider
     if (!context) {
         throw new Error('FieldArray must be used within the Former component');
@@ -36,7 +40,9 @@ const FieldArray = ({
         Object.keys(innerFormData).forEach((key) => {
             const copied = structuredClone(innerFormData[key]);
             const indexed = structuredClone(copied[index]);
-            updateField(key + '.' + index, indexed);
+            if (indexed) {
+                updateField(key + '.' + index, indexed);
+            }
         });
     };
 
@@ -73,7 +79,6 @@ const FieldArray = ({
 
     const validateAllRequiredFieldsIsFilled = React.useCallback(() => {
         const fieldData = getField(name);
-        console.log(fieldData);
         const lastItem =
             fieldData && Array.isArray(fieldData) ? fieldData.length - 1 : null;
         let allFilled: boolean = true;
@@ -128,6 +133,14 @@ const FieldArray = ({
                 } else if (isRemove) {
                     return React.cloneElement(child as ReactElement, {
                         name: `${fieldName}`,
+                        deleteFromInner: (name: string) =>
+                            innerDeleteField(name),
+                        deleteItemState: index
+                            ? () =>
+                                  deleteItemState
+                                      ? deleteItemState(index)
+                                      : undefined
+                            : undefined,
                     });
                 } else if (isAdd) {
                     const fieldData = getField(fieldName);
@@ -137,11 +150,6 @@ const FieldArray = ({
                         fieldData.length > 0
                     ) {
                         const lastItem = fieldData[fieldData.length - 1];
-                        console.log(
-                            lastItem,
-                            validateAllRequiredFieldsIsFilled(),
-                            lastItem && Object.keys(lastItem).length === 0
-                        );
                         if (
                             lastItem &&
                             (Object.keys(lastItem).length === 0 ||
@@ -150,9 +158,17 @@ const FieldArray = ({
                             return null;
                         }
                     }
+                    const firstNullIndex = Array.isArray(fieldData)
+                        ? fieldData?.findIndex(
+                              (item) =>
+                                  item == null || Object.keys(item).length === 0
+                          )
+                        : -1;
                     const index =
-                        fieldData && Array.isArray(fieldData)
-                            ? fieldData.length
+                        firstNullIndex !== -1
+                            ? firstNullIndex
+                            : Array.isArray(fieldData)
+                            ? fieldData?.length
                             : 0;
                     return React.cloneElement(child as ReactElement, {
                         name: `${name}`,
