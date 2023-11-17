@@ -35,10 +35,12 @@ export const Add = ({
 
         // Logic for creating a new field in the array
         if (firstNullIndex !== -1) {
+            console.log('firstNullIndex', firstNullIndex);
             createField(name + '[' + firstNullIndex + ']', {});
             updateItemState({ ...itemState, ...initialItemState });
             return;
         } else {
+            console.log('fields.length', fields.length);
             createField(name + '[' + fields.length + ']', {});
             updateItemState({ ...itemState, ...initialItemState });
             return;

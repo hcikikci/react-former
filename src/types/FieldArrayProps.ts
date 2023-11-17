@@ -6,4 +6,5 @@ export type FieldArrayProps = {
     saveOnSubmit?: boolean;
     itemStates?: any[];
     updateItemState?: (index: number, state: any) => void;
+    deleteItemState?: (index: number) => void;
 };

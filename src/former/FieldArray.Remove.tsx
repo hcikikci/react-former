@@ -7,7 +7,12 @@ import { FormContext } from './Former';
 import { FieldArrayRemoveProps } from '../types/FieldArrayRemoveProps';
 
 // Remove component for deleting items from the field array
-export const Remove = ({ name = '', children }: FieldArrayRemoveProps) => {
+export const Remove = ({
+    name = '',
+    children,
+    deleteFromInner,
+    deleteItemState,
+}: FieldArrayRemoveProps) => {
     const context = React.useContext(FormContext);
 
     // Ensuring Remove is used within a FormContext provider
@@ -18,7 +23,11 @@ export const Remove = ({ name = '', children }: FieldArrayRemoveProps) => {
 
     // Function to handle the deletion of a field
     const handleDeleteField = (name: string) => {
+        deleteFromInner(name);
         deleteField(name);
+        if (deleteItemState) {
+            deleteItemState();
+        }
     };
 
     // Rendering the Remove component
