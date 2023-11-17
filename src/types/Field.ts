@@ -26,4 +26,5 @@ export interface FieldType {
     saveOnSubmit?:
         | boolean
         | ((fieldName: string, value: FormDataValue) => void);
+    setExternalState?: any;
 }
